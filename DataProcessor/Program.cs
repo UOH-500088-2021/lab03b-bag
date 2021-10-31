@@ -39,7 +39,9 @@ namespace DataProcessor
                     NumberOfForces++;
                     line = reader.ReadLine();
                     var columns = line.Split(",");  // What if there's a comma inside a data column?
-                    totalCalls += int.Parse(columns[1]);  // What if the data doesn't parse properly?
+                    int num = 0;
+                    int.TryParse(columns[1], out num);
+                    totalCalls += num;
                 }
                 AverageTotalCalls = totalCalls / NumberOfForces;
             }
