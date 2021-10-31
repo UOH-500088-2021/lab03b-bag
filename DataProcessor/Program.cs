@@ -26,31 +26,48 @@ namespace DataProcessor
 
         public int AverageTotalCalls { get; set; }
         public int NumberOfForces { get; set; }
+        public string HighestAbandonmentRate { get; set; }
 
         public void ReadData()
         {
             var totalCallsColumn = 2;
+            double startCol = 27;
+            double endCol = 39;
+            double totalAbandonment = 0;
+            double highestAbandonmentRate = 0;
+
             using (StreamReader reader = new StreamReader(FileName))
             {
                 var totalCalls = 0;
                 var line = reader.ReadLine(); // Read the header line, which doesn't contain data
+                string forecName = "";
                 while (!reader.EndOfStream)
                 {
                     NumberOfForces++;
                     line = reader.ReadLine();
                     var columns = line.Split(",");  // What if there's a comma inside a data column?
-                    int num = 0;
-                    int.TryParse(columns[1], out num);
+                    
+                    int.TryParse(columns[1], out int num);
                     totalCalls += num;
+
+                    for (int i = (int)startCol; i< endCol; i++)
+                    {
+                        totalAbandonment += double.Parse(columns[i]);
+                    }
+
+                    if (totalAbandonment > highestAbandonmentRate) 
+                    {
+                        forecName = columns[0];
+                        HighestAbandonmentRate = forecName;
+                        highestAbandonmentRate = totalAbandonment;
+                    }
+
+                    totalAbandonment = 0;
                 }
                 AverageTotalCalls = totalCalls / NumberOfForces;
             }
         }
-
-        public double HighestAbandobnmentRate()
-        {
-            return 53.275;
-        }
+      
     }
         
 }
