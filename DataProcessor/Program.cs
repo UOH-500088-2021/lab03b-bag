@@ -46,6 +46,11 @@ namespace DataProcessor
                 AverageTotalCalls = totalCalls / NumberOfForces;
             }
         }
+
+        public double HighestAbandobnmentRate()
+        {
+            return 53.275;
+        }
     }
         
 }

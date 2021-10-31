@@ -26,5 +26,15 @@ namespace UnitTests
             var result = reader.AverageTotalCalls;
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void TestAbondomentRate()
+        {
+            var reader = new DataReader();
+            reader.FileName = "police_101_call_test_data.csv";
+            var expected = 53.275;
+            var result = reader.HighestAbandobnmentRate();
+            Assert.AreEqual(expected, result);
+        }
     }
 }
