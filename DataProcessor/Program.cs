@@ -50,14 +50,27 @@ namespace DataProcessor
                     totalCalls += num;
 
                     highestAbandonmentRate = SetAbandonmentRate(columns, highestAbandonmentRate);
-
+                    ForcesWithAnsTime = ReadAnsweCallsJan(ForcesWithAnsTime, columns);
                 }
 
+                foreach (KeyValuePair<string, double> item in ForcesWithAnsTime.OrderBy(key => key.Value))
+                {
+                    RankedListJan.Add(item.Key);
+                }
 
                 AverageTotalCalls = totalCalls / NumberOfForces;
             }
         }
 
+        private static Dictionary<string, double> ReadAnsweCallsJan(Dictionary<string, double> ForcesWithAnsTime, string[] columns)
+        {
+            int JanColum = 24;
+            double forceAnsTime = 0;
+            double.TryParse(columns[JanColum], out forceAnsTime);
+            ForcesWithAnsTime.Add(columns[0], forceAnsTime);
+
+            return ForcesWithAnsTime;
+        }
 
         private double SetAbandonmentRate(string[] columns, double highestAbandonmentRate)
         {
