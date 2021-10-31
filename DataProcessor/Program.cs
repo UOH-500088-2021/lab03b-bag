@@ -26,23 +26,20 @@ namespace DataProcessor
 
         public int AverageTotalCalls { get; set; }
         public int NumberOfForces { get; set; }
-        public string HighestAbandonmentRate { get; set; }
+        public string HighestAbandonmentRateName { get; set; }
 
         public void ReadData()
         {
-            var totalCallsColumn = 2;
             double highestAbandonmentRate = 0;
-
             using (StreamReader reader = new StreamReader(FileName))
             {
                 var totalCalls = 0;
-                var line = reader.ReadLine(); // Read the header line, which doesn't contain data
+                var line = reader.ReadLine(); 
                 while (!reader.EndOfStream)
                 {
                     NumberOfForces++;
                     line = reader.ReadLine();
-                    var columns = line.Split(",");  // What if there's a comma inside a data column?
-
+                    var columns = line.Split(",");  
                     int.TryParse(columns[1], out int num);
                     totalCalls += num;
 
@@ -66,7 +63,7 @@ namespace DataProcessor
             if (totalAbandonment > highestAbandonmentRate)
             {
                 highestAbandonmentRate = totalAbandonment;
-                HighestAbandonmentRate = columns[0];
+                HighestAbandonmentRateName = columns[0];
             }
 
             return highestAbandonmentRate;

@@ -34,7 +34,7 @@ namespace UnitTests
             reader.FileName = "police_101_call_test_data.csv";
             var expected = "Avon and Somerset Constabulary";
             reader.ReadData();
-            var result = reader.HighestAbandonmentRate;
+            var result = reader.HighestAbandonmentRateName;
             Assert.AreEqual(expected, result);
         }
     }
