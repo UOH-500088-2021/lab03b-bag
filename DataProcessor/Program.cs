@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace DataProcessor
 {
@@ -28,36 +30,45 @@ namespace DataProcessor
         public int NumberOfForces { get; set; }
         public string HighestAbandonmentRateName { get; set; }
 
+        public List<string> RankedListJan { get; set; }
+
         public void ReadData()
         {
             double highestAbandonmentRate = 0;
             using (StreamReader reader = new StreamReader(FileName))
             {
+                RankedListJan = new List<string>();
                 var totalCalls = 0;
-                var line = reader.ReadLine(); 
+                var line = reader.ReadLine();
+                Dictionary<string, double> ForcesWithAnsTime = new Dictionary<string, double>();
                 while (!reader.EndOfStream)
                 {
                     NumberOfForces++;
                     line = reader.ReadLine();
-                    var columns = line.Split(",");  
+                    var columns = line.Split(",");
                     int.TryParse(columns[1], out int num);
                     totalCalls += num;
 
                     highestAbandonmentRate = SetAbandonmentRate(columns, highestAbandonmentRate);
+
                 }
+
+
                 AverageTotalCalls = totalCalls / NumberOfForces;
             }
         }
 
+
         private double SetAbandonmentRate(string[] columns, double highestAbandonmentRate)
         {
-            double startCol = 27;
-            double endCol = 39;
+            int startCol = 27;
+            int endCol = 39;
             
             double totalAbandonment = 0;
-            for (int i = (int)startCol; i < endCol; i++)
+            for (int i = startCol; i < endCol; i++)
             {
-                totalAbandonment += double.Parse(columns[i]);
+                double.TryParse(columns[i], out double num);
+                totalAbandonment += num;
             }
 
             if (totalAbandonment > highestAbandonmentRate)
